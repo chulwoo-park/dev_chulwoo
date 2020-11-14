@@ -1,7 +1,10 @@
+import 'package:dev_chulwoo/presentation/common/image.dart';
 import 'package:dev_chulwoo/presentation/portfolio/screen.dart';
 import 'package:dev_chulwoo/presentation/route/model.dart';
 import 'package:dev_chulwoo/presentation/route/router.dart';
 import 'package:flutter/material.dart';
+
+import '../resources.dart';
 
 class HomeRoute extends AppRoute {
   const HomeRoute();
@@ -23,12 +26,19 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Hello world!'),
+            AppImage.asset(
+              R.images.ic_android,
+              semanticLabel: 'Android',
+              width: 90.0,
+            ),
+            SizedBox(height: 6.0),
             FlatButton(
               onPressed: () {
                 AppRouter.of(context).setNewRoutePath(PortfolioRoute());
               },
-              child: Text('Portfolio'),
+              child: Text(
+                'Portfolio',
+              ),
             ),
           ],
         ),
