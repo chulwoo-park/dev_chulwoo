@@ -17,8 +17,27 @@ class AdaptivePage {
     assert(child != null);
     assert(maintainState != null);
     assert(fullscreenDialog != null);
-
-    if (platform.isIOS) {
+    if (platform.isWeb) {
+      return MaterialPage<T>(
+        key: key,
+        child: Builder(
+          builder: (context) => WillPopScope(
+            onWillPop: () async {
+              if (Navigator.of(context).userGestureInProgress) {
+                return false;
+              } else {
+                return true;
+              }
+            },
+            child: child,
+          ),
+        ),
+        maintainState: maintainState,
+        fullscreenDialog: fullscreenDialog,
+        name: name,
+        arguments: arguments,
+      );
+    } else if (platform.isIOS) {
       return CupertinoPage<T>(
         key: key,
         child: child,

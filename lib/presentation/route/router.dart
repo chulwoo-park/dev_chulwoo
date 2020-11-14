@@ -1,9 +1,11 @@
 import 'package:dev_chulwoo/presentation/home/screen.dart';
 import 'package:dev_chulwoo/presentation/route/parser.dart';
+import 'package:dev_chulwoo/presentation/route/transitions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../../common.dart';
 import 'model.dart';
 
 class AppRouter extends ChangeNotifier {
@@ -55,13 +57,12 @@ class AppRouterDelegate extends RouterDelegate<AppRoute>
     return ChangeNotifierProvider<AppRouter>.value(
       value: router,
       child: Consumer<AppRouter>(
-        builder: (context, router, _) {
-          return Navigator(
-            key: navigatorKey,
-            onPopPage: _handleOnPopPage,
-            pages: router.pages,
-          );
-        },
+        builder: (context, router, _) => Navigator(
+          key: navigatorKey,
+          onPopPage: _handleOnPopPage,
+          pages: router.pages,
+          transitionDelegate: platform.isWeb ? NoAnimationTransitionDelegate() : DefaultTransitionDelegate(),
+        ),
       ),
     );
   }
@@ -88,18 +89,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoute>
   AppRoute get currentConfiguration => router.currentRoute;
 
   @override
-  Future<void> setNewRoutePath(AppRoute configuration) => router.setNewRoutePath(configuration);
-}
-
-class AppRouteInformationParser extends RouteInformationParser<AppRoute> {
-  final LocationParser parser;
-
-  const AppRouteInformationParser(this.parser);
-
-  @override
-  Future<AppRoute> parseRouteInformation(RouteInformation routeInformation) async =>
-      parser.parse(routeInformation.location);
-
-  @override
-  RouteInformation restoreRouteInformation(AppRoute path) => RouteInformation(location: path.location);
+  Future<void> setNewRoutePath(AppRoute configuration) {
+    return router.setNewRoutePath(configuration);
+  }
 }
