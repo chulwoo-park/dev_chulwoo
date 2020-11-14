@@ -2,6 +2,8 @@ import 'package:dev_chulwoo/presentation/unknown/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'platform_page.dart';
+
 abstract class AppRoute {
   const AppRoute();
 
@@ -13,8 +15,8 @@ abstract class AppRoute {
 
   Widget get child;
 
-  MaterialPage createPage({Key key}) {
-    return MaterialPage(
+  Page<T> createPage<T>({Key key}) {
+    return AdaptivePage.create(
       key: key ?? UniqueKey(),
       name: location,
       child: child,
