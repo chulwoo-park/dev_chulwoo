@@ -1,4 +1,4 @@
-package dev.dev_chulwoo
+package dev.chulwoo
 
 import io.flutter.embedding.android.FlutterActivity
 
