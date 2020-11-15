@@ -1,10 +1,12 @@
-import 'package:dev_chulwoo/presentation/common/image.dart';
-import 'package:dev_chulwoo/presentation/portfolio/screen.dart';
 import 'package:dev_chulwoo/presentation/route/model.dart';
-import 'package:dev_chulwoo/presentation/route/router.dart';
+import 'package:dev_chulwoo/presentation/widget/circle_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../resources.dart';
+import '../extensions.dart';
 
 class HomeRoute extends AppRoute {
   const HomeRoute();
@@ -26,21 +28,77 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppImage.asset(
-              R.images.ic_android,
-              semanticLabel: 'Android',
-              width: 90.0,
-            ),
-            SizedBox(height: 6.0),
-            FlatButton(
-              onPressed: () {
-                AppRouter.of(context).setNewRoutePath(PortfolioRoute());
-              },
-              child: Text(
-                'Portfolio',
-              ),
+            // ProfileImage(),
+            SizedBox(height: 24.0),
+            Wrap(
+              spacing: 12.0,
+              children: [
+                BrandIcon(
+                  FontAwesomeIcons.github,
+                  tooltip: 'github',
+                  onPressed: () {
+                    // TODO: manage resource
+                    launch('https://github.com/chulwoo-park');
+                  },
+                ),
+                BrandIcon(
+                  FontAwesomeIcons.linkedinIn,
+                  tooltip: 'linkedIn',
+                  onPressed: () {
+                    // TODO: manage resource
+                    launch('https://www.linkedin.com/in/chulwoo-park');
+                  },
+                ),
+                Builder(
+                  builder: (context) => BrandIcon(
+                    FontAwesomeIcons.envelope,
+                    tooltip: 'email',
+                    onPressed: () async {
+                      // TODO: manage resource
+                      final email = 'mozziluv@gmail.com';
+                      final mailTo = Uri(
+                        scheme: 'mailto',
+                        path: email,
+                      );
+                      if (await canLaunch(mailTo.toString())) {
+                        await launch(mailTo.toString());
+                      } else {
+                        // TODO: dialog, refactoring
+                        Scaffold.of(context).removeCurrentSnackBar();
+                        Scaffold.of(context).showSimpleSnackBar(
+                          '(TODO) 메일 앱을 열 수 없습니다.\n$email로 연락 바랍니다.',
+                          actionLabel: '복사하기',
+                          onActionPressed: () {
+                            Clipboard.setData(ClipboardData(text: email)).then((_) {
+                              Scaffold.of(context).showSimpleSnackBar('$email 복사 완료');
+                            });
+                          },
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150.0,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        // border: Border.all(color: Colors.black.withOpacity(0.005)),
+        image: DecorationImage(
+          image: AssetImage(
+            R.images.img_chulwoo,
+          ),
         ),
       ),
     );

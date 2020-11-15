@@ -9,4 +9,5 @@ class _Images {
   static const path = 'assets/images';
 
   final ic_android = '$path/ic_android.svg';
+  final img_chulwoo = '$path/img_chulwoo.jpg';
 }
