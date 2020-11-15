@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                     tooltip: 'email',
                     onPressed: () async {
                       // TODO: manage resource
-                      final email = 'mozziluv@gmail.com';
+                      final email = 'contact@chulwoo.dev';
                       final mailTo = Uri(
                         scheme: 'mailto',
                         path: email,
