@@ -28,8 +28,14 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text(
+              '🚧',
+              style: TextStyle(
+                fontSize: 48.0,
+              ),
+            ),
             // ProfileImage(),
-            SizedBox(height: 24.0),
+            SizedBox(height: 32.0),
             Wrap(
               spacing: 12.0,
               children: [
